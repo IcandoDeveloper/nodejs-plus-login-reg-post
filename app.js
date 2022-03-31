@@ -32,6 +32,6 @@ app.use("/api", [postsRouter]);
 
 
 app.use(express.static("assets"))
-app.listen(5000, () => {
+app.listen(3000, () => {
     console.log("서버가 요청을 받을 준비가 되었어요!")
 })
