@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!--    BootStrap Library-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <!--    JQuery-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!--    Javascript-->
+    <script src="/htmlApi.js"></script>
+
+    <!--    Include CSS -->
+    <link href="/mystyle.css" rel="stylesheet"/>
+
+</head>
+<style>
+    .wrBox {
+                margin: 10px auto;
+                width: 1000px;
+                margin: 150px auto;
+            }
+
+</style>
+<script>
+    $(document).ready(function () {
+        writePage();
+    });
+
+    function writePage() {
+        if (!localStorage.getItem("token")) {
+            alert("로그인이 필요한 기능입니다");
+            window.location.href = "/index.html";
+        }
+    }
+    // 페이지를 들어갔을 때 비로그인시 알람을 띄워주면서 지정 페이지로 넘어감.
+
+    function posting() {
+        let title =  $("#title").val()
+         let password = $("#password").val()
+        let content =  $("#content").val()
+        let userId = $("#UserId").val()
+        console.log(title, content)
+        $.ajax({
+            type: "POST",
+            url: "/api/posts",
+            contentType: "application/json",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            data: JSON.stringify( {
+                title:title,
+                 password:password,
+                content:content,
+                UserId:userId,
+                // postId : postId,
+                
+                
+            }),
+            success: function (response) {
+                console.log(response)
+                 alert(response['result'] ) 
+                    
+                    window.location.href = "/main.html"
+                
+        }
+        });
+    }    
+</script>
+</head>
+
+<body>
+<div class="wrBox">
+    <div class="form-group">
+        <label for="title">제목</label>
+        <input type="text" class="form-control" id="title" placeholder="제목을 적어주세요.">
+    
+        <label for="UserId">User</label>
+        <input type="text" class="form-control" id="UserId" placeholder="닉네임을 적어주세요.">
+   
+        <label for="content">내용</label>
+        <textarea class="form-control" id="content" rows="10" placeholder="내용을 적어주세요."></textarea>
+   
+        <label for="password">비밀번호</label>
+        <input type="password" class="form-control" id="password" placeholder="비밀번호를 적어주세요.">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2" onclick="posting()">작성완료</button>
+    <button type="button" class="btn btn-secondary" onclick="location.href='/main.html'">취소</button>
+</div>
+
+
+</body>
+</html>
