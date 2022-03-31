@@ -56,6 +56,7 @@ router.post("/posts", async (req, res) => {
         num = 1
     }
     
+    
      
         const {title, content, UserId, password} = req.body;
         console.log(title, content,password,UserId)
